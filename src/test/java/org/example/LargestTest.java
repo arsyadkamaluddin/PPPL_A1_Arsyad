@@ -9,11 +9,11 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LargestTest {
-    Integer[] numbers = {1, 2, 3};
+    Integer[] numbers = {7,8,9};
     int max = Largest.largest(numbers);
 
     @Test
     void largest() {
-        Assertions.assertEquals(3, max);
+        Assertions.assertEquals(9, max);
     }
 }
