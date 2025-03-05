@@ -1,33 +1,54 @@
 package org.example;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class WalletTest {
+    private static Wallet wallet;
+
+    @BeforeAll
+    static void setUpAll() {
+        System.out.println("Starting Wallet Tests...");
+    }
+
+    @AfterAll
+    static void tearDownAll() {
+        System.out.println("All Wallet Tests Completed.");
+    }
+
+    @BeforeEach
+    void setUp() {
+        Assertions.assertNull(wallet);
+        System.out.println("Wallet is clear");
+        wallet = new Wallet("Amhar");
+    }
+
+    @AfterEach
+    void tearDown() {
+        System.out.println("Clear the wallet");
+        wallet = null;
+        Assertions.assertNull(wallet);
+    }
 
     @Test
     void ownerOnWallet() {
-        Wallet wallet = new Wallet("Amhar");
-        Assertions.assertEquals("Amhar",wallet.getOwner());
+        assertEquals("Amhar", wallet.getOwner());
     }
 
     @Test
     void setOwner() {
-        Wallet wallet = new Wallet("Amhar");
         wallet.setOwner("Arsyad");
-        Assertions.assertEquals("Arsyad",wallet.getOwner());
+        assertEquals("Arsyad", wallet.getOwner());
     }
 
     @Test
     void addCard() {
-        Wallet wallet = new Wallet("Amhar");
         wallet.addCard("BCA");
-        Assertions.assertEquals(1, wallet.getCards().size());
-        Assertions.assertEquals("BCA",wallet.getCards().get(0));
+        assertEquals(1, wallet.getCards().size());
+        assertEquals("BCA", wallet.getCards().get(0));
     }
 
     @Test
@@ -35,55 +56,48 @@ class WalletTest {
         ArrayList<String> cards = new ArrayList<>();
         cards.add("BCA");
         cards.add("BRI");
-        Wallet wallet = new Wallet("Amhar");
         wallet.addCard(cards.get(0));
         wallet.addCard(cards.get(1));
-        Assertions.assertArrayEquals(cards.toArray(),wallet.getCards().toArray());
+        assertArrayEquals(cards.toArray(), wallet.getCards().toArray());
     }
 
     @Test
     void takeCard() {
-        Wallet wallet = new Wallet("Amhar");
         wallet.addCard("BCA");
         String card = wallet.takeCard("BCA");
-        Assertions.assertEquals("BCA",card);
-        Assertions.assertNull(wallet.takeCard("BCA"));
+        assertEquals("BCA", card);
+        assertNull(wallet.takeCard("BCA"));
     }
 
     @Test
     void getOwner() {
-        Wallet wallet = new Wallet("Amhar");
-        Assertions.assertEquals("Amhar",wallet.getOwner());
+        assertEquals("Amhar", wallet.getOwner());
     }
 
     @Test
-    void addMoney(){
-        Wallet wallet = new Wallet("Amhar");
+    void addMoney() {
         wallet.addMoney(100000);
-        Assertions.assertEquals(1,wallet.getMoney().size());
+        assertEquals(1, wallet.getMoney().size());
     }
 
     @Test
-    void addMoneyOnType(){
-        Wallet wallet = new Wallet("Amhar");
+    void addMoneyOnType() {
         wallet.addMoney(100000);
-        Assertions.assertEquals("kertas",wallet.getMoney().get(0).getType());
+        assertEquals("kertas", wallet.getMoney().get(0).getType());
     }
 
     @Test
-    void takeMoney(){
-        Wallet wallet = new Wallet("Amhar");
+    void takeMoney() {
         wallet.addMoney(100);
-        Assertions.assertNull(wallet.takeMoney(1000));
-        Assertions.assertEquals(100,wallet.takeMoney(100).getValue());
-        Assertions.assertNull(wallet.takeMoney(100));
+        assertNull(wallet.takeMoney(1000));
+        assertEquals(100, wallet.takeMoney(100).getValue());
+        assertNull(wallet.takeMoney(100));
     }
-    
-    @Test 
-    void getBalance(){
-        Wallet wallet = new Wallet("Amhar");
+
+    @Test
+    void getBalance() {
         wallet.addMoney(100000);
         wallet.addMoney(50000);
-        Assertions.assertEquals(150000,wallet.getBalance());
+        assertEquals(150000, wallet.getBalance());
     }
 }
