@@ -1,42 +1,71 @@
 package org.example;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class CalculatorTest {
-    Calculator calculator = new Calculator(20,10);
 
-    @Test
-    void aValue() {
-        Assertions.assertEquals(20,calculator.a);
+    @ParameterizedTest
+    @ValueSource(ints = {2, 4, 6, 8, 10})
+    void isEven(int number){
+        Calculator calc = new Calculator(0, 0);
+        assertTrue(calc.isEven(number), "IsEven Failed");
+    }
+    @ParameterizedTest
+    @CsvSource({"10, 25, 35", "12, 13, 25", "43, 54, 97"})
+    void add(int a, int b, int expected) {
+        Calculator calc = new Calculator(a, b);
+        assertEquals(expected, calc.add(), "Addition Failed");
+    }
+    @ParameterizedTest
+    @MethodSource("substractData")
+    void substract(int a, int b, int expected) {
+        Calculator calc = new Calculator(a, b);
+        assertEquals(expected, calc.substract(), "Substraction Failed");
     }
 
-    @Test
-    void bValue() {
-        Assertions.assertEquals(10,calculator.b);
+    @ParameterizedTest
+    @MethodSource("multipleData")
+    void multiple(int a, int b, int expected) {
+        Calculator calc = new Calculator(a, b);
+        assertEquals(expected, calc.multiple(), "Multipy Failed");
     }
 
-    @Test
-    void add() {
-        Assertions.assertEquals(30,calculator.add());
+    @ParameterizedTest
+    @MethodSource("divideData")
+    void divide(int a, int b, int expected) {
+        Calculator calc = new Calculator(a, b);
+        assertEquals(expected, calc.divide(), "Divide Failed");
     }
 
-    @Test
-    void substract() {
-        Assertions.assertEquals(10,calculator.substract());
+    static Stream<Arguments> substractData() {
+        return Stream.of(
+                Arguments.of(43, 10, 33),
+                Arguments.of(30, 12, 18),
+                Arguments.of(10, 20, -10)
+        );
     }
 
-    @Test
-    void multiple() {
-        Assertions.assertEquals(200,calculator.multiple());
+    static Stream<Arguments> multipleData() {
+        return Stream.of(
+                Arguments.of(10, 10, 100),
+                Arguments.of(6, 5, 30),
+                Arguments.of(8, 7, 56)
+        );
     }
 
-    @Test
-    void divide() {
-        Assertions.assertEquals(2,calculator.divide());
+    static Stream<Arguments> divideData() {
+        return Stream.of(
+                Arguments.of(100, 10, 10),
+                Arguments.of(325, 25, 13),
+                Arguments.of(50, 10, 5)
+        );
     }
-
-
 }

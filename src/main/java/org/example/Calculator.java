@@ -20,4 +20,7 @@ public class Calculator {
     public int divide(){
         return a/b;
     }
+    public boolean isEven(int number){
+        return number%2 == 0;
+    }
 }
